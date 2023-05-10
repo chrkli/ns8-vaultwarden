@@ -8,7 +8,7 @@
 # Most parts of this file come from podman-generate-systemd.
 #
 [Unit]
-Description=vaultwarden server
+Description=Podman vaultwarden server for NS8
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
@@ -21,12 +21,15 @@ ExecStart=/usr/bin/podman run \
     --detach \
     --conmon-pidfile=%t/vaultwarden.pid \
     --cidfile=%t/vaultwarden.ctr-id \
+    --env-file=%S/state/environment \
     --cgroups=no-conmon \
     --replace --name=%N \
-    --publish=127.0.0.1:${TCP_PORT}:8080 \
-    --env-file=smarthost.env
-    ${ECHO_SERVER_IMAGE}
-ExecStop=/usr/bin/podman stop --ignore --cidfile %t/vaultwarden.ctr-id -t 10
+    --publish=127.0.0.1:${TRAEFIK_TCP_PORT}:8080 \
+    --env-file=smarthost.env \
+    --env-file=%S/state/environment \
+    --volume vaultwarden-data:/data/:Z \
+    ${VAULTWARDEN_IMAGE}
+ExecStop=/usr/bin/podman stop --ignore --cidfile %t/vaultwarden.ctr-id -t 15
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/vaultwarden.ctr-id
 PIDFile=%t/vaultwarden.pid
 Type=forking
