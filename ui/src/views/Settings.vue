@@ -23,15 +23,150 @@
       <cv-column>
         <cv-tile light>
           <cv-form @submit.prevent="configureModule">
-            <!-- TODO remove test field and code configuration fields -->
             <cv-text-input
-              :label="$t('settings.test_field')"
-              v-model="testField"
-              :placeholder="$t('settings.test_field')"
+              :label="$t('settings.domain')"
+              v-model="Domain"
+              :placeholder="host.domain.tld/vaultwarden"
               :disabled="loading.getConfiguration || loading.configureModule"
-              :invalid-message="error.testField"
-              ref="testField"
+              :invalid-message="error.Domain"
+              ref="Domain"
             ></cv-text-input>
+            <cv-text-input
+              :label="$t('settings.orgname')"
+              v-model="OrgName"
+              :placeholder="NS8-Vaultwarden"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              :invalid-message="error.OrgName"
+	      ref="OrgName"
+            ></cv-text-input>
+            <cv-toggle
+              value="InvitationsEnabled"
+              :label="$t('settings.invitations_state')"
+              v-model="InvitationsEnabled"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              class="mg-bottom"
+            >
+              <template slot="text-left">{{
+                $("settings.disabled")
+              }}</template>
+              <template slot="text-right">{{
+                $("settings.enabled")
+              }}</template>
+            </cv-toggle>
+            <cv-toggle
+              value="WebvaultEnabled"
+              :label="$t('settings.webvault_state')"
+              v-model="WebvaultEnabled"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              class="mg-bottom"
+            >
+              <template slot="text-left">{{
+                $("settings.disabled")
+              }}</template>
+              <template slot="text-right">{{
+                $("settings.enabled")
+              }}</template>
+            </cv-toggle>
+            <cv-toggle
+              value="WebsocketEnabled"
+              :label="$t('settings.websocket_state')"
+              v-model="WebsocketEnabled"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              class="mg-bottom"
+            >
+              <template slot="text-left">{{
+                $("settings.disabled")
+              }}</template>
+              <template slot="text-right">{{
+                $("settings.enabled")
+              }}</template>
+            </cv-toggle>
+            <cv-toggle
+              value="SendsEnabled"
+              :label="$t('settings.sends_state')"
+              v-model="SendsEnabled"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              class="mg-bottom"
+            >
+              <template slot="text-left">{{
+                $("settings.disabled")
+              }}</template>
+              <template slot="text-right">{{
+                $("settings.enabled")
+              }}</template>
+            </cv-toggle>
+            <cv-toggle
+              value="EmergencyAccessEnabled"
+              :label="$t('settings.emergency_state')"
+              v-model="EmergencyAccessEnabled"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              class="mg-bottom"
+            >
+              <template slot="text-left">{{
+                $("settings.disabled")
+              }}</template>
+              <template slot="text-right">{{
+                $("settings.enabled")
+              }}</template>
+            </cv-toggle>
+            <cv-toggle
+              value="IconDownloadEnabled"
+              :label="$t('settings.icondownload_state')"
+              v-model="IconDownloadEnabled"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              class="mg-bottom"
+            >
+              <template slot="text-left">{{
+                $("settings.disabled")
+              }}</template>
+              <template slot="text-right">{{
+                $("settings.enabled")
+              }}</template>
+            </cv-toggle>
+            <cv-toggle
+              value="SignupsEnabled"
+              :label="$t('settings.signups_state')"
+              v-model="SignupsEnabled"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              class="mg-bottom"
+            >
+              <template slot="text-left">{{
+                $("settings.disabled")
+              }}</template>
+              <template slot="text-right">{{
+                $("settings.enabled")
+              }}</template>
+            </cv-toggle>
+
+            <!-- <cv-toggle
+              value="letsEncrypt"
+              :label="$t('settings.lets_encrypt')"
+              v-model="LetsEncryptEnabled"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              class="mg-bottom"
+            >
+              <template slot="text-left">{{
+                $t("settings.disabled")
+              }}</template>
+              <template slot="text-right">{{
+                $t("settings.enabled")
+              }}</template>
+            </cv-toggle> -->
+            <cv-toggle
+              value="httpToHttps"
+              :label="$t('settings.http_to_https')"
+              v-model="HttpToHttpsEnabled"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              class="mg-bottom"
+            >
+              <template slot="text-left">{{
+                $t("settings.disabled")
+              }}</template>
+              <template slot="text-right">{{
+                $t("settings.enabled")
+              }}</template>
+            </cv-toggle>
+
             <cv-row v-if="error.configureModule">
               <cv-column>
                 <NsInlineNotification
@@ -85,7 +220,17 @@ export default {
         page: "settings",
       },
       urlCheckInterval: null,
-      testField: "", // TODO remove
+      Domain: "",
+      OrgName: "",
+      InvitationsEnabled: true,
+      WebvaultEnabled: true,
+      WebsocketEnabled: false,
+      SendsEnabled: false,
+      EmergencyAccessEnabled: false,
+      IconDownloadEnabled: true,
+      SignupsEnables: true,
+      LetsEncryptEnabled: false,
+      HttpToHttpsEnabled: true,
       loading: {
         getConfiguration: false,
         configureModule: false,
@@ -93,7 +238,9 @@ export default {
       error: {
         getConfiguration: "",
         configureModule: "",
-        testField: "", // TODO remove
+        Domain: "",
+        lets_encrypt: "",
+        http2https: "",
       },
     };
   },
@@ -159,27 +306,36 @@ export default {
     getConfigurationCompleted(taskContext, taskResult) {
       this.loading.getConfiguration = false;
       const config = taskResult.output;
-
-      // TODO set configuration fields
-      // ...
-
-      // TODO remove
-      console.log("config", config);
-
-      // TODO focus first configuration field
-      this.focusElement("testField");
+      this.hostname = config.hostname;
+      this.Domain = config.domain;
+      this.OrgName = config.orgname;
+      this.InvitationsEnabled = config.invitations;
+      this.WebvaultEnabled = config.webvault;
+      this.WebsocketEnabled = config.websocket;
+      this.SendsEnabled = config.sends;
+      this.EmergencyAccessEnabled = config.emergencyaccess;
+      this.IconDownloadEnabled = config.icondownload;
+      this.SignupsEnabled = config.signups;
+      this.LetsEncryptEnabled = config.lets_encrypt;
+      this.HttpToHttpsEnabled = config.http2https;
+      this.focusElement("Domain");
     },
     validateConfigureModule() {
       this.clearErrors(this);
       let isValidationOk = true;
-
-      // TODO remove testField and validate configuration fields
-      if (!this.testField) {
-        // test field cannot be empty
-        this.error.testField = this.$t("common.required");
-
+      
+      if (!this.Domain) {
+        this.error.domain = this.$t("common.required");
         if (isValidationOk) {
-          this.focusElement("testField");
+          this.focusElement("Domain");
+          isValidationOk = false;
+        }
+      }
+     
+      if (!this.OrgName) {
+        this.error.orgname = this.$t("common.required");
+        if (isValidationOk) {
+          this.focusElement("OrgName");
           isValidationOk = false;
         }
       }
