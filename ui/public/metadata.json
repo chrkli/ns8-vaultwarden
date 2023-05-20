@@ -13,7 +13,6 @@
   "docs": {
     "documentation_url": "https://github.com/dani-garcia/vaultwarden/wiki",
     "bug_url": "https://github.com/chrkli/ns8-vaultwarden",
-    //"bug_url": "https://github.com/NethServer/dev",
     "code_url": "https://github.com/chrkli/ns8-vaultwarden"
   },
   "source": "ghcr.io/chrkli/vaultwarden"
