@@ -4,12 +4,12 @@
 
 Instantiate the module with:
 
-    add-module ghcr.io/nethserver/vaultwarden:latest 1
+    add-module ghcr.io/chrkli/vaultwarden:latest 1
 
 The output of the command will return the instance name.
 Output example:
 
-    {"module_id": "vaultwarden1", "image_name": "vaultwarden", "image_url": "ghcr.io/nethserver/vaultwarden:latest"}
+    {"module_id": "vaultwarden1", "image_name": "vaultwarden", "image_url": "ghcr.io/chrkli/vaultwarden:latest"}
 
 ## Configure
 
@@ -63,7 +63,7 @@ To uninstall the instance:
 Test the module using the `test-module.sh` script:
 
 
-    ./test-module.sh <NODE_ADDR> ghcr.io/nethserver/vaultwarden:latest
+    ./test-module.sh <NODE_ADDR> ghcr.io/chrkli/vaultwarden:latest
 
 The tests are made using [Robot Framework](https://robotframework.org/)
 
