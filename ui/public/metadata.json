@@ -1,19 +1,20 @@
 {
-  "name": "vaultwarden",
+  "name": "Vaultwarden password server",
   "description": {
-    "en": "My vaultwarden module"
+    "en": "Alternative implementation of the Bitwarden server API written in Rust including webvault; compatible with upstream Bitwarden clients"
   },
   "categories": [],
   "authors": [
     {
-      "name": "Name Surname",
-      "email": "author@yourmail.org"
+      "name": "Christoph Klink",
+      "email": "dev-ck@klinknetz.de"
     }
   ],
   "docs": {
-    "documentation_url": "https://docs.vaultwarden.com/",
-    "bug_url": "https://github.com/NethServer/dev",
-    "code_url": "https://github.com/author/ns8-vaultwarden"
+    "documentation_url": "https://github.com/dani-garcia/vaultwarden/wiki",
+    "bug_url": "https://github.com/chrkli/ns8-vaultwarden",
+    //"bug_url": "https://github.com/NethServer/dev",
+    "code_url": "https://github.com/chrkli/ns8-vaultwarden"
   },
-  "source": "ghcr.io/nethserver/vaultwarden"
+  "source": "ghcr.io/chrkli/vaultwarden"
 }

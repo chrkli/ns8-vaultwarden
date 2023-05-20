@@ -13,20 +13,57 @@ import os
 
 request = json.load(sys.stdin)
 
-# TODO: do something with the request payload. For example configure a
-# custom route in our web router. Here the path is hardcoded as
-# 'vaultwarden'.
+# use first random port for vaultwarden, second for websocket (if enabled)
+env_tcp_ports = os_environ["TCP_PORTS"].split(',')
+http_tcp_port = env_tcp_ports[0]
+websocket_tcp_port = env_tcp_ports[1]
+
+# Setup default values
+domain = data.get("domain")
+path = data.get("path", "/webvault")
+orgname = data.get("orgname", "NS8-Vaultwarden")
+invitations = data.get("invitations", True)
+webvault = data.get("webvault", True)
+websocket = data.get("websocket", False)
+sends = data.get("sends", False)
+emergencyaccess = data.get("emergencyaccess", False)
+icondownload = data.get("icondownload", True)
+signups = data.get("signups", False)
+le = date.get("lets_encrypt", False)
+h2hs = data.get("http2https", True)
+
+agent.set_env("HTTP_TCP_PORT", http_tcp_port)
+agent.set_env("WEBSOCKET_TCP_PORT", websocket_tcp_port)
+agent.set_env("TRAEFIK_HOST", domain)
+agent.set_env("TRAEFIK_PATH", path)
+agent.set_env("OrgName", orgname)
+agent.set_env("InvitationsEnabled", invitations)
+agent.set_env("WebvaultEnabled", webvault)
+agent.set_env("WebsocketEnabled", websocket)
+agent.set_env("SendsEnabled", sends)
+agent.set_env("EmergencyAccessEnabled", emergencyaccess)
+agent.set_env("IconDownloadEnabled", icondownload)
+agent.set_env("SignupsEnabled", signups)
+agent.set_env("TRAEFIK_HTTP2HTTPS", h2hs)
+agent.set_env("TRAEFIK_LETS_ENCRYPT", le)
+
+agent.dump_env()
+
+default_traefik_id = agent.resolve_agent_id('traefik@node')
+if default_traefik_id is None:
+  sys.exit(2)
 
 # Configure Traefik to route "/vaultwarden" path requests to the vaultwarden service
 response = agent.tasks.run(
-    agent_id=agent.resolve_agent_id('traefik@node'),
+    agent_id=default_traefik_id,
     action='set-route',
     data={
         'instance': os.environ['MODULE_ID'],
-        'url':  'http://127.0.0.1:' + os.environ["TCP_PORT"],
-        'http2https': False,
-        'lets_encrypt': False,
-        'path': '/vaultwarden',
+        'url':  'http://127.0.0.1:' + os.environ["HTTP_TCP_PORT"],
+        'http2https': h2hs,
+        'lets_encrypt': le,
+        'path': path,
+        'host': domain
     },
 )
 

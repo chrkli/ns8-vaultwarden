@@ -1,8 +1,33 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "configure-module input",
+    "title": "configure vaultwarden",
     "$id": "http://schema.nethserver.org/vaultwarden/configure-module-input.json",
     "description": "Configure vaultwarden",
-    "examples": [],
-    "type": "object"
+    "examples": [
+      {}
+    ],
+    "type": "object",
+    "required": [
+      "path",
+      "domain",
+      "http2https"
+    ],
+    "properties": {
+      "path": {
+        "type": "string",
+        "description": "url path for web application, like '/vaultwarden'",
+        "pattern": "^/[a-zA-Z0-9]*"
+      },
+      "domain" : {
+        "type": "string",
+        "description": "fully-qualified hostname needed for WebAuthn to work, e.g. vault.example.org",
+        // regex source: https://regexr.com/3evse
+	"pattern": "^(?=^.{1,253}$)(([a-z\d]([a-z\d-]{0,62}[a-z\d])*[\.]){1,3}[a-z]{1,61})$"
+     },
+     "http2https": {
+       "type": "boolean",
+       "title": "HTTP to HTTPS redirection",
+       "description": "Redirect all HTTP requests to HTTPS"
+     }
+   }
 }

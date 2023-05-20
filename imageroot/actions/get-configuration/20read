@@ -5,10 +5,35 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 
+import os
+import socket
 import json
 import sys
 import agent
 
 config = {}
 
+# Read current configuration from Redis
+env =f'module/{os.environ["MODULE_ID"]}/environment'
+rdb = agent.redis_connect()
+# config [""] = rdb.hget(env, "");
+config ["http_tcp_port"] = rdb.hget(env "HTTP_TCP_PORT");
+config ["websocket_tcp_port"] = rdb.hget(env "WEBSOCKET_TCP_PORT");
+config ["domain"] = rdb.hget(env, "TRAEFIK_HOST");
+config ["path"] = rdb.hget(env, "TRAEFIK_PATH");
+config ["orgname"] = rdb.hget(env, "OrgName");
+config ["invitations"] = rdb.hget(env, "InvitationsEnabled");
+config ["webvault"] = rdb.hget(env, "WebvaultEnabled");
+config ["websocket"] = rdb.hget(env, "WebsocketEnabled");
+config ["sends"] = rdb.hget(env, "SendsEnabled");
+config ["emergencyaccess"] = rdb.hget(env, "EmergencyAccessEnabled");
+config ["icondownload"] = rdb.hget(env, "IconDownloadEnabled");
+config ["signups"] = rdb.hget(env, "SignupsEnabled");
+config ["lets_encrypt"] = rdb.hget(env, "TRAEFIK_LETS_ENCRYPT");
+config ["http2https"] = rdb.hget(env, "TRAEFIK_HTTP2HTTPS");
+config [
+# find hostname of the node
+config ["hostname"] = socket.gethostname();
+
+# Dump the config to stdout
 json.dump(config, fp=sys.stdout)

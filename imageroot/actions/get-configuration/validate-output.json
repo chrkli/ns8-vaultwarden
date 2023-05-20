@@ -1,8 +1,33 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "get-configuration output",
+    "title": "Configure Vaultwarden",
     "$id": "http://schema.nethserver.org/vaultwarden/get-configuration-output.json",
-    "description": "Get vaultwarden configuration",
-    "examples": [],
-    "type": "object"
+    "description": "Configure Vaultwarden",
+    "examples": [
+      {
+        "domain": "host.domain.tld/vaultwarden",
+        "orgname": "NS8 Vaultwarden",
+        "invitations": true,
+        "webvault": true,
+        "websocket": false,
+        "sends": false,
+        "emergencyaccess": true,
+        "icondownload": true,
+        "signups": false,
+        "lets_encrypt": false,
+        "http2https": true
+      }
+    ],
+    "type": "object",
+    "required": [
+      "domain",
+      "orgname",
+      "http2https"
+    ],
+    "properties": {
+      "domain": {
+        "type": "string",
+        "title": "",
+        "description": ""
+      }
 }
