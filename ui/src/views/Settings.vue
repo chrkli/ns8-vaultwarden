@@ -26,7 +26,7 @@
             <cv-text-input
               :label="$t('settings.domain')"
               v-model="Domain"
-              :placeholder="host.domain.tld"
+              placeholder="host.domain.tld"
               :disabled="loading.getConfiguration || loading.configureModule"
               :invalid-message="error.domain"
               ref="Domain"
@@ -34,7 +34,7 @@
             <cv-text-input>
               :label="$t('settings.path')"
               v-model="Path"
-              :placeholder="/webvault"
+              placeholder="/webvault"
               :disabled="loading.getConfiguration || loading.configureModule"
               :invalid-message="error.path"
               ref="Path"
@@ -42,7 +42,7 @@
             <cv-text-input
               :label="$t('settings.orgname')"
               v-model="OrgName"
-              :placeholder="NS8-Vaultwarden"
+              placeholder="NS8-Vaultwarden"
               :disabled="loading.getConfiguration || loading.configureModule"
               :invalid-message="error.orgname"
 	      ref="OrgName"

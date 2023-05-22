@@ -16,9 +16,7 @@ config = {}
 # Read current configuration from Redis
 env =f'module/{os.environ["MODULE_ID"]}/environment'
 rdb = agent.redis_connect()
-# config [""] = rdb.hget(env, "");
-config ["http_tcp_port"] = rdb.hget(env "HTTP_TCP_PORT");
-config ["websocket_tcp_port"] = rdb.hget(env "WEBSOCKET_TCP_PORT");
+
 config ["domain"] = rdb.hget(env, "TRAEFIK_HOST");
 config ["path"] = rdb.hget(env, "TRAEFIK_PATH");
 config ["orgname"] = rdb.hget(env, "OrgName");
