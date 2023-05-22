@@ -7,9 +7,10 @@ on:
         description: "Debug shell"
         required: true
         type: boolean
-  workflow_run:
-    workflows: ["Publish images"]
-    types: [completed]
+# no need to run tests at the moment
+#  workflow_run:
+#    workflows: ["Publish images"]
+#    types: [completed]
 
 jobs:
   module:
