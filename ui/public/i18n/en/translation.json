@@ -24,7 +24,20 @@
     "title": "Settings",
     "configure_instance": "Configure {instance}",
     "save": "Save",
-    "test_field": "Test field"
+    "disabled": "Disabled",
+    "enabled": "Enabled",
+    "domain": "Set server FQDN",
+    "path": "Set url path for webvault",
+    "orgname": "Set Organization Name",
+    "invitations": "Toggle sending invitations ",
+    "webvault": "Toggle webvault state",
+    "websocket": "Toggle websocket support",
+    "sends": "Toggle Sends support",
+    "emergencyaccess": "Toggle emergency access",
+    "icondownload": "Toggle icon download behavior",
+    "signups": "Allow registration of accounts",
+    "lets_encrypt": "Toggle Let's Encrypt state",
+    "http_to_https": "Toggle redirect to secure connection"
   },
   "about": {
     "title": "About"
@@ -52,6 +65,11 @@
     "403": "Operation not authorized",
     "404": "Resource not found",
     "cannot_retrieve_module_info": "Cannot retrieve module info",
-    "cannot_retrieve_installed_modules": "Cannot retrieve installed modules"
+    "cannot_retrieve_installed_modules": "Cannot retrieve installed modules",
+    "getConfiguration": "Cannot retrieve module configuration",
+    "configureModule": "Cannot configure module",
+    "domain": "Domain not formatted correctly",
+    "path": "Path not formatted correctly",
+    "orgname": "Organization Name may not be empty"
   }
 }

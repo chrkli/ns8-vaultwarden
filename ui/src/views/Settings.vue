@@ -26,115 +26,123 @@
             <cv-text-input
               :label="$t('settings.domain')"
               v-model="Domain"
-              :placeholder="host.domain.tld/vaultwarden"
+              :placeholder="host.domain.tld"
               :disabled="loading.getConfiguration || loading.configureModule"
-              :invalid-message="error.Domain"
+              :invalid-message="error.domain"
               ref="Domain"
+            ></cv-text-input>
+            <cv-text-input>
+              :label="$t('settings.path')"
+              v-model="Path"
+              :placeholder="/webvault"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              :invalid-message="error.path"
+              ref="Path"
             ></cv-text-input>
             <cv-text-input
               :label="$t('settings.orgname')"
               v-model="OrgName"
               :placeholder="NS8-Vaultwarden"
               :disabled="loading.getConfiguration || loading.configureModule"
-              :invalid-message="error.OrgName"
+              :invalid-message="error.orgname"
 	      ref="OrgName"
             ></cv-text-input>
             <cv-toggle
               value="InvitationsEnabled"
-              :label="$t('settings.invitations_state')"
+              :label="$t('settings.invitations')"
               v-model="InvitationsEnabled"
               :disabled="loading.getConfiguration || loading.configureModule"
               class="mg-bottom"
             >
               <template slot="text-left">{{
-                $("settings.disabled")
+                $t("settings.disabled")
               }}</template>
               <template slot="text-right">{{
-                $("settings.enabled")
+                $t("settings.enabled")
               }}</template>
             </cv-toggle>
             <cv-toggle
               value="WebvaultEnabled"
-              :label="$t('settings.webvault_state')"
+              :label="$t('settings.webvault')"
               v-model="WebvaultEnabled"
               :disabled="loading.getConfiguration || loading.configureModule"
               class="mg-bottom"
             >
               <template slot="text-left">{{
-                $("settings.disabled")
+                $t("settings.disabled")
               }}</template>
               <template slot="text-right">{{
-                $("settings.enabled")
+                $t("settings.enabled")
               }}</template>
             </cv-toggle>
             <cv-toggle
               value="WebsocketEnabled"
-              :label="$t('settings.websocket_state')"
+              :label="$t('settings.websocket')"
               v-model="WebsocketEnabled"
               :disabled="loading.getConfiguration || loading.configureModule"
               class="mg-bottom"
             >
               <template slot="text-left">{{
-                $("settings.disabled")
+                $t("settings.disabled")
               }}</template>
               <template slot="text-right">{{
-                $("settings.enabled")
+                $t("settings.enabled")
               }}</template>
             </cv-toggle>
             <cv-toggle
               value="SendsEnabled"
-              :label="$t('settings.sends_state')"
+              :label="$t('settings.sends')"
               v-model="SendsEnabled"
               :disabled="loading.getConfiguration || loading.configureModule"
               class="mg-bottom"
             >
               <template slot="text-left">{{
-                $("settings.disabled")
+                $t("settings.disabled")
               }}</template>
               <template slot="text-right">{{
-                $("settings.enabled")
+                $t("settings.enabled")
               }}</template>
             </cv-toggle>
             <cv-toggle
               value="EmergencyAccessEnabled"
-              :label="$t('settings.emergency_state')"
+              :label="$t('settings.emergencyaccess')"
               v-model="EmergencyAccessEnabled"
               :disabled="loading.getConfiguration || loading.configureModule"
               class="mg-bottom"
             >
               <template slot="text-left">{{
-                $("settings.disabled")
+                $t("settings.disabled")
               }}</template>
               <template slot="text-right">{{
-                $("settings.enabled")
+                $t("settings.enabled")
               }}</template>
             </cv-toggle>
             <cv-toggle
               value="IconDownloadEnabled"
-              :label="$t('settings.icondownload_state')"
+              :label="$t('settings.icondownload')"
               v-model="IconDownloadEnabled"
               :disabled="loading.getConfiguration || loading.configureModule"
               class="mg-bottom"
             >
               <template slot="text-left">{{
-                $("settings.disabled")
+                $t("settings.disabled")
               }}</template>
               <template slot="text-right">{{
-                $("settings.enabled")
+                $t("settings.enabled")
               }}</template>
             </cv-toggle>
             <cv-toggle
               value="SignupsEnabled"
-              :label="$t('settings.signups_state')"
+              :label="$t('settings.signups')"
               v-model="SignupsEnabled"
               :disabled="loading.getConfiguration || loading.configureModule"
               class="mg-bottom"
             >
               <template slot="text-left">{{
-                $("settings.disabled")
+                $t("settings.disabled")
               }}</template>
               <template slot="text-right">{{
-                $("settings.enabled")
+                $t("settings.enabled")
               }}</template>
             </cv-toggle>
 
@@ -221,6 +229,7 @@ export default {
       },
       urlCheckInterval: null,
       Domain: "",
+      Path: "",
       OrgName: "",
       InvitationsEnabled: true,
       WebvaultEnabled: true,
@@ -239,8 +248,17 @@ export default {
         getConfiguration: "",
         configureModule: "",
         Domain: "",
-        lets_encrypt: "",
-        http2https: "",
+        Path: "",
+        OrgName: "",
+        InvitationsEnabled: "",
+        WebvaultEnabled: "",
+        WebsocketEnabled: "",
+        SendsEnabled: "",
+        EmergencyAccessEnabled: "",
+        IconDownloadEnabled: "",
+        SignupsEnabled: "",
+        LetsEncryptEnabled: "",
+        HttpToHttpsEnabled: "",
       },
     };
   },
@@ -306,8 +324,8 @@ export default {
     getConfigurationCompleted(taskContext, taskResult) {
       this.loading.getConfiguration = false;
       const config = taskResult.output;
-      this.hostname = config.hostname;
       this.Domain = config.domain;
+      this.Path = config.path;
       this.OrgName = config.orgname;
       this.InvitationsEnabled = config.invitations;
       this.WebvaultEnabled = config.webvault;
@@ -328,6 +346,14 @@ export default {
         this.error.domain = this.$t("common.required");
         if (isValidationOk) {
           this.focusElement("Domain");
+          isValidationOk = false;
+        }
+      }
+
+      if (!this.Path) {
+        this.error.domain = this.$t("common.required");
+        if (isValidationOk) {
+          this.focusElement("Path");
           isValidationOk = false;
         }
       }
@@ -383,7 +409,18 @@ export default {
         this.createModuleTaskForApp(this.instanceName, {
           action: taskAction,
           data: {
-            // TODO configuration fields
+            domain: this.Domain,
+            path: this.Path,
+            orgname: this.OrgName,
+            invitations: this.InvitationsEnabled,
+            webvault: this.WebvaultEnabled,
+            websocket: this.WebsocketEnabled,
+            sends: this.SendsEnabled,
+            emergencyaccess: this.EmergencyAccessEnabled,
+            icondownload: this.IconDownloadEnabled,
+            signups: this.SignupsEnabled,
+            lets_encrypt: this.LetsEncryptEnabled,
+            http2https: this.HttpToHttpsenabled,
           },
           extra: {
             title: this.$t("settings.configure_instance", {
