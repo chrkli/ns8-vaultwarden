@@ -31,7 +31,7 @@ config ["icondownload"] = rdb.hget(env, "IconDownloadEnabled");
 config ["signups"] = rdb.hget(env, "SignupsEnabled");
 config ["lets_encrypt"] = rdb.hget(env, "TRAEFIK_LETS_ENCRYPT");
 config ["http2https"] = rdb.hget(env, "TRAEFIK_HTTP2HTTPS");
-config [
+
 # find hostname of the node
 config ["hostname"] = socket.gethostname();
 
