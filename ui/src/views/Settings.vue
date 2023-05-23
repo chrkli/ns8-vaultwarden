@@ -26,7 +26,7 @@
             <cv-text-input
               :label="$t('settings.domain')"
               v-model="Domain"
-              placeholder="host.domain.tld"
+              placeholder="vaultwarden.example.com"
               :disabled="loading.getConfiguration || loading.configureModule"
               :invalid-message="error.domain"
               ref="Domain"
@@ -145,8 +145,7 @@
                 $t("settings.enabled")
               }}</template>
             </cv-toggle>
-
-            <!-- <cv-toggle
+            <cv-toggle
               value="letsEncrypt"
               :label="$t('settings.lets_encrypt')"
               v-model="LetsEncryptEnabled"
@@ -159,7 +158,7 @@
               <template slot="text-right">{{
                 $t("settings.enabled")
               }}</template>
-            </cv-toggle> -->
+            </cv-toggle>
             <cv-toggle
               value="httpToHttps"
               :label="$t('settings.http_to_https')"
@@ -174,7 +173,6 @@
                 $t("settings.enabled")
               }}</template>
             </cv-toggle>
-
             <cv-row v-if="error.configureModule">
               <cv-column>
                 <NsInlineNotification
@@ -234,8 +232,8 @@ export default {
       InvitationsEnabled: true,
       WebvaultEnabled: true,
       WebsocketEnabled: false,
-      SendsEnabled: false,
-      EmergencyAccessEnabled: false,
+      SendsEnabled: true,
+      EmergencyAccessEnabled: true,
       IconDownloadEnabled: true,
       SignupsEnables: true,
       LetsEncryptEnabled: false,

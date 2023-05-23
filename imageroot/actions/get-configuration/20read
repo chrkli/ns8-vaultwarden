@@ -20,15 +20,15 @@ rdb = agent.redis_connect()
 config ["domain"] = rdb.hget(env, "TRAEFIK_HOST");
 config ["path"] = rdb.hget(env, "TRAEFIK_PATH");
 config ["orgname"] = rdb.hget(env, "OrgName");
-config ["invitations"] = rdb.hget(env, "InvitationsEnabled");
-config ["webvault"] = rdb.hget(env, "WebvaultEnabled");
-config ["websocket"] = rdb.hget(env, "WebsocketEnabled");
-config ["sends"] = rdb.hget(env, "SendsEnabled");
-config ["emergencyaccess"] = rdb.hget(env, "EmergencyAccessEnabled");
-config ["icondownload"] = rdb.hget(env, "IconDownloadEnabled");
-config ["signups"] = rdb.hget(env, "SignupsEnabled");
-config ["lets_encrypt"] = rdb.hget(env, "TRAEFIK_LETS_ENCRYPT");
-config ["http2https"] = rdb.hget(env, "TRAEFIK_HTTP2HTTPS");
+config ["invitations"] = rdb.hget(env, "InvitationsEnabled") == "True";
+config ["webvault"] = rdb.hget(env, "WebvaultEnabled") == "True";
+config ["websocket"] = rdb.hget(env, "WebsocketEnabled") == "False";
+config ["sends"] = rdb.hget(env, "SendsEnabled") == "True";
+config ["emergencyaccess"] = rdb.hget(env, "EmergencyAccessEnabled") == "True";
+config ["icondownload"] = rdb.hget(env, "IconDownloadEnabled") == "True";
+config ["signups"] = rdb.hget(env, "SignupsEnabled") == "True";
+config ["lets_encrypt"] = rdb.hget(env, "TRAEFIK_LETS_ENCRYPT") == "False";
+config ["http2https"] = rdb.hget(env, "TRAEFIK_HTTP2HTTPS") == "True";
 
 # find hostname of the node
 config ["hostname"] = socket.gethostname();

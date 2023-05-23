@@ -5,15 +5,16 @@
     "description": "Configure Vaultwarden",
     "examples": [
       {
-        "domain": "host.domain.tld/vaultwarden",
+        "domain": "vaultwarden.example.com",
+        "path": "/webvault",
         "orgname": "NS8 Vaultwarden",
         "invitations": true,
         "webvault": true,
         "websocket": false,
-        "sends": false,
+        "sends": true,
         "emergencyaccess": true,
         "icondownload": true,
-        "signups": false,
+        "signups": true,
         "lets_encrypt": false,
         "http2https": true
       }
