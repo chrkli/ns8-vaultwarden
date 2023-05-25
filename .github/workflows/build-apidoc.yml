@@ -6,6 +6,8 @@ on:
       - '**/validate-input.json'
       - '**/validate-output.json'
       - '**/validator-definitions.json'
+permissions: 
+    contents: write
 
 jobs:
   build-apidoc:
