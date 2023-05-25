@@ -85,6 +85,6 @@
         "type": "boolean",
         "title": "HTTP to HTTPS",
         "description": "Redirect plain web requests to TLS enabled port."
-      },
+      }
     }
 }

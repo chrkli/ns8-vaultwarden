@@ -31,7 +31,7 @@
               :invalid-message="error.domain"
               ref="Domain"
             ></cv-text-input>
-            <cv-text-input>
+            <cv-text-input
               :label="$t('settings.path')"
               v-model="Path"
               placeholder="/webvault"
