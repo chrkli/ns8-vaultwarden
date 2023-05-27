@@ -146,7 +146,7 @@
               }}</template>
             </cv-toggle>
             <cv-toggle
-              value="letsEncrypt"
+              value="letsEncryptEnabled"
               :label="$t('settings.lets_encrypt')"
               v-model="LetsEncryptEnabled"
               :disabled="loading.getConfiguration || loading.configureModule"
@@ -160,7 +160,7 @@
               }}</template>
             </cv-toggle>
             <cv-toggle
-              value="httpToHttps"
+              value="HttpToHttpsEnabled"
               :label="$t('settings.http_to_https')"
               v-model="HttpToHttpsEnabled"
               :disabled="loading.getConfiguration || loading.configureModule"
