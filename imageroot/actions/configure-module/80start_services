@@ -8,5 +8,7 @@
 # If the control reaches this step, the service can be enabled and started
 
 touch smarthost.env
+touch vaultwarden.env
 
-systemctl --user enable --now vaultwarden.service
+systemctl --user enable  vaultwarden.service
+systemctl --user restart vaultwarden.service

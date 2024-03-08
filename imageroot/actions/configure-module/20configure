@@ -11,26 +11,26 @@ import agent
 import agent.tasks
 import os
 
-request = json.load(sys.stdin)
+data = json.load(sys.stdin)
 
 # use first random port for vaultwarden, second for websocket (if enabled)
-env_tcp_ports = os_environ["TCP_PORTS"].split(',')
+env_tcp_ports = os.environ["TCP_PORTS"].split(',')
 http_tcp_port = env_tcp_ports[0]
 websocket_tcp_port = env_tcp_ports[1]
 
 # Setup default values
 domain = data.get("domain")
-path = data.get("path", "/webvault")
-orgname = data.get("orgname", "NS8-Vaultwarden")
-invitations = data.get("invitations", True)
-webvault = data.get("webvault", True)
-websocket = data.get("websocket", False)
-sends = data.get("sends", True)
-emergencyaccess = data.get("emergencyaccess", True)
-icondownload = data.get("icondownload", True)
-signups = data.get("signups", True)
-le = date.get("lets_encrypt", False)
-h2hs = data.get("http2https", True)
+path = data.get("path")
+orgname = data.get("orgname")
+invitations = data.get("invitations")
+webvault = data.get("webvault")
+websocket = data.get("websocket")
+sends = data.get("sends")
+emergencyaccess = data.get("emergencyaccess")
+icondownload = data.get("icondownload")
+signups = data.get("signups")
+le = data.get("lets_encrypt")
+h2hs = data.get("http2https")
 
 agent.set_env("HTTP_TCP_PORT", http_tcp_port)
 agent.set_env("WEBSOCKET_TCP_PORT", websocket_tcp_port)
@@ -47,19 +47,20 @@ agent.set_env("SignupsEnabled", signups)
 agent.set_env("TRAEFIK_HTTP2HTTPS", h2hs)
 agent.set_env("TRAEFIK_LETS_ENCRYPT", le)
 
-agent.dump_env()
+# 27.05.2023: deprecated an implemented as no-op (error during configure-module)
+#agent.dump_env()
 
 default_traefik_id = agent.resolve_agent_id('traefik@node')
 if default_traefik_id is None:
   sys.exit(2)
 
-# Configure Traefik to route "/vaultwarden" path requests to the vaultwarden service
+# Configure Traefik to route hostname/webpath to vaultwarden service
 response = agent.tasks.run(
     agent_id=default_traefik_id,
     action='set-route',
     data={
         'instance': os.environ['MODULE_ID'],
-        'url':  'http://127.0.0.1:' + os.environ["HTTP_TCP_PORT"],
+        'url':  'http://127.0.0.1:' + os.environ['HTTP_TCP_PORT'],
         'http2https': h2hs,
         'lets_encrypt': le,
         'path': path,
