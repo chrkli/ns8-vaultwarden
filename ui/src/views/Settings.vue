@@ -161,7 +161,7 @@
             </cv-toggle>
             <cv-toggle
               value="HttpToHttpsEnabled"
-              :label="$t('settings.http_to_https')"
+              :label="$t('settings.http2https')"
               v-model="HttpToHttpsEnabled"
               :disabled="loading.getConfiguration || loading.configureModule"
               class="mg-bottom"
@@ -248,7 +248,7 @@ export default {
         Domain: "",
         Path: "",
         lets_encrypt: "",
-        http_to_https: "",
+        http2https: "",
       },
     };
   },
@@ -325,7 +325,7 @@ export default {
       this.IconDownloadEnabled = config.icondownload;
       this.SignupsEnabled = config.signups;
       this.LetsEncryptEnabled = config.lets_encrypt;
-      this.HttpToHttpsEnabled = config.http_to_https;
+      this.HttpToHttpsEnabled = config.http2https;
       this.focusElement("Domain");
     },
     validateConfigureModule() {
@@ -410,7 +410,7 @@ export default {
             icondownload: this.IconDownloadEnabled,
             signups: this.SignupsEnabled,
             lets_encrypt: this.LetsEncryptEnabled,
-            http_to_https: this.HttpToHttpsEnabled,
+            http2https: this.HttpToHttpsEnabled,
           },
           extra: {
             title: this.$t("settings.configure_instance", {
