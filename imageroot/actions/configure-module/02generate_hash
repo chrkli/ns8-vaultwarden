@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# create hashed version admin token using either argon2 cli or temporary container
+set -e
+
+# read plain admintoken from file
+admintoken=$(/usr/bin/cat ~/.config/state/secrets/admintoken.plain | cut -d '=' -f 2)
+
+# define outfile path
+outfile=~/.config/state/secrets/admintoken.hashed
+
+# check if hashed admin token already exists
+if [[ ! -f ${outfile} ]]; then
+    /usr/bin/echo 'creating hashed version of admintoken'
+    # check if argon2 is available
+    if [[ ! $(command -v argon2) ]]; then
+        /usr/bin/echo 'spawning container to create hash'
+        # spawn a temporary container to run vaultwarden hash << pass plain admintoken twice | remove irrelevant lines > save hash to file
+        /usr/bin/podman run --name createHash --rm --quiet --tty --interactive ${VAULTWARDEN_IMAGE} /vaultwarden hash <<-INPUT | sed '1,5d;$d' > ${outfile}
+		$admintoken
+		$admintoken
+		INPUT
+    else
+        /usr/bin/echo 'using OS level argon2 to create hash'
+        # use argon2 to hash admintoken (https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page#using-argon2)
+        hashedtoken=$(/usr/bin/printf $admintoken | /usr/bin/argon2 "$(/usr/bin/openssl rand -base64 32)" -e -id -k 65540 -t 3 -p 4)
+        # save hashed token for usage in ENV inside container
+        /usr/bin/echo "VAULTWARDEN_ADMINTOKEN='$hashedtoken'" > ${outfile}
+    fi
+    /usr/bin/echo 'hashed admintoken saved'
+else
+    /usr/bin/echo 'hashed admintoken found, nothing to do'
+fi
