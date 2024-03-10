@@ -410,7 +410,7 @@ export default {
             icondownload: this.IconDownloadEnabled,
             signups: this.SignupsEnabled,
             lets_encrypt: this.LetsEncryptEnabled,
-            http_to_https: this.HttpToHttpsenabled,
+            http_to_https: this.HttpToHttpsEnabled,
           },
           extra: {
             title: this.$t("settings.configure_instance", {
