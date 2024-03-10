@@ -5,22 +5,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 
-import json
-import sys
-import agent
-import agent.tasks
 import os
+import sys
+import json
+import agent
 
 data = json.load(sys.stdin)
 
-# use first random port for vaultwarden, second for websocket (if enabled)
-env_tcp_ports = os.environ["TCP_PORTS"].split(',')
-http_tcp_port = env_tcp_ports[0]
-websocket_tcp_port = env_tcp_ports[1]
-
 # Setup default values
-domain = data.get("domain")
-path = data.get("path")
 orgname = data.get("orgname")
 invitations = data.get("invitations")
 webvault = data.get("webvault")
@@ -29,13 +21,7 @@ sends = data.get("sends")
 emergencyaccess = data.get("emergencyaccess")
 icondownload = data.get("icondownload")
 signups = data.get("signups")
-le = data.get("lets_encrypt")
-h2hs = data.get("http2https")
 
-agent.set_env("HTTP_TCP_PORT", http_tcp_port)
-agent.set_env("WEBSOCKET_TCP_PORT", websocket_tcp_port)
-agent.set_env("TRAEFIK_HOST", domain)
-agent.set_env("TRAEFIK_PATH", path)
 agent.set_env("OrgName", orgname)
 agent.set_env("InvitationsEnabled", invitations)
 agent.set_env("WebvaultEnabled", webvault)
@@ -44,29 +30,6 @@ agent.set_env("SendsEnabled", sends)
 agent.set_env("EmergencyAccessEnabled", emergencyaccess)
 agent.set_env("IconDownloadEnabled", icondownload)
 agent.set_env("SignupsEnabled", signups)
-agent.set_env("TRAEFIK_HTTP2HTTPS", h2hs)
-agent.set_env("TRAEFIK_LETS_ENCRYPT", le)
 
-# 27.05.2023: deprecated an implemented as no-op (error during configure-module)
-#agent.dump_env()
-
-default_traefik_id = agent.resolve_agent_id('traefik@node')
-if default_traefik_id is None:
-  sys.exit(2)
-
-# Configure Traefik to route hostname/webpath to vaultwarden service
-response = agent.tasks.run(
-    agent_id=default_traefik_id,
-    action='set-route',
-    data={
-        'instance': os.environ['MODULE_ID'],
-        'url':  'http://127.0.0.1:' + os.environ['HTTP_TCP_PORT'],
-        'http2https': h2hs,
-        'lets_encrypt': le,
-        'path': path,
-        'host': domain
-    },
-)
-
-# Check if traefik configuration has been successfull
-agent.assert_exp(response['exit_code'] == 0)
+# ensure everything is saved to environment
+agent.dump_env()

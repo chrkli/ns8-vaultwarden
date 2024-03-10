@@ -9,16 +9,11 @@ Instantiate the module with:
 The output of the command will return the instance name.
 Output example:
 
-<<<<<<< HEAD
     {"module_id": "vaultwarden1", "image_name": "vaultwarden", "image_url": "ghcr.io/chrkli/vaultwarden:latest"}
 
 ## Configure
 
 Let's assume that the vaultwarden instance is named `vaultwarden1`.
-=======
-    {"module_id": "kickstart1", "image_name": "kickstart", "image_url": "ghcr.io/nethserver/kickstart:latest"}
-
-## Configure
 
     api-cli run module/vaultwarden1/configure-module --data '{}'
 

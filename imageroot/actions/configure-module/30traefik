@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2023 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+import os
+import sys
+import json
+import agent
+import agent.tasks
+
+# try to interprete input as JSON
+data = json.load(sys.stdin)
+
+# Setup default values
+domain = data.get("domain")
+path = data.get("path")
+le = data.get("lets_encrypt")
+h2hs = data.get("http2https", True)
+
+agent.set_env("WEBVAULT_TCP_PORT", os.environ['TCP_PORT'])
+agent.set_env("TRAEFIK_HOST", domain)
+agent.set_env("TRAEFIK_PATH", path)
+agent.set_env("TRAEFIK_HTTP2HTTPS", h2hs)
+agent.set_env("TRAEFIK_LETS_ENCRYPT", le)
+
+# ensure everything is saved to environment
+agent.dump_env()
+
+default_traefik_id = agent.resolve_agent_id('traefik@node')
+if default_traefik_id is None:
+  sys.exit(2)
+
+# Configure Traefik to route hostname/webpath to vaultwarden service
+response = agent.tasks.run(
+    agent_id=default_traefik_id,
+    action='set-route',
+    data={
+        'instance': os.environ['MODULE_ID'],
+        'url':  f'http://127.0.0.1:{os.environ["WEBVAULT_TCP_PORT"]}',
+        'http2https': h2hs,
+        'lets_encrypt': le,
+        'path': path,
+        'host': domain
+    },
+)
+# Check if traefik configuration has been successfull
+agent.assert_exp(response['exit_code'] == 0)

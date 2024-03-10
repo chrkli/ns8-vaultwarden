@@ -47,7 +47,7 @@
         "type": "boolean",
         "title": "Let's Encrypt certificatae",
         "description": "Request a valid Let's Encrypt certificate."
-      }
+      },
       "http2https": {
         "type": "boolean",
         "title": "HTTP to HTTPS redirection",
