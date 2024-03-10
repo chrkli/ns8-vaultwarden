@@ -9,18 +9,16 @@ Instantiate the module with:
 The output of the command will return the instance name.
 Output example:
 
+<<<<<<< HEAD
     {"module_id": "vaultwarden1", "image_name": "vaultwarden", "image_url": "ghcr.io/chrkli/vaultwarden:latest"}
 
 ## Configure
 
 Let's assume that the vaultwarden instance is named `vaultwarden1`.
+=======
+    {"module_id": "kickstart1", "image_name": "kickstart", "image_url": "ghcr.io/nethserver/kickstart:latest"}
 
-Launch `configure-module`, by setting the following parameters:
-- `<MODULE_PARAM1_NAME>`: <MODULE_PARAM1_DESCRIPTION>
-- `<MODULE_PARAM2_NAME>`: <MODULE_PARAM2_DESCRIPTION>
-- ...
-
-Example:
+## Configure
 
     api-cli run module/vaultwarden1/configure-module --data '{}'
 
@@ -56,6 +54,7 @@ expected to work: it can be rewritten or discarded completely.
 
 To uninstall the instance:
 
+<<<<<<< HEAD
     remove-module --no-preserve vaultwarden1
 
 ## Testing
@@ -63,6 +62,7 @@ To uninstall the instance:
 Test the module using the `test-module.sh` script:
 
 
+<<<<<<< HEAD
     ./test-module.sh <NODE_ADDR> ghcr.io/chrkli/vaultwarden:latest
 
 The tests are made using [Robot Framework](https://robotframework.org/)
@@ -71,5 +71,6 @@ The tests are made using [Robot Framework](https://robotframework.org/)
 
 Translated with [Weblate](https://hosted.weblate.org/projects/ns8/).
 
-ToDo: Setup the translation process
-
+####ToDo: Setup the translation process
+- add [GitHub Weblate app](https://docs.weblate.org/en/latest/admin/continuous.html#github-setup) to your repository
+- add your repository to [hosted.weblate.org]((https://hosted.weblate.org) or ask a NethServer developer to add it to ns8 Weblate project
