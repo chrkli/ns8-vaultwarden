@@ -20,7 +20,6 @@ path = data.get("path")
 le = data.get("lets_encrypt")
 h2hs = data.get("http2https", True)
 
-agent.set_env("WEBVAULT_TCP_PORT", os.environ['TCP_PORT'])
 agent.set_env("TRAEFIK_HOST", domain)
 agent.set_env("TRAEFIK_PATH", path)
 agent.set_env("TRAEFIK_HTTP2HTTPS", h2hs)
@@ -39,7 +38,7 @@ response = agent.tasks.run(
     action='set-route',
     data={
         'instance': os.environ['MODULE_ID'],
-        'url':  f'http://127.0.0.1:{os.environ["WEBVAULT_TCP_PORT"]}',
+        'url':  f'http://127.0.0.1:{os.environ["TCP_PORT"]}',
         'http2https': h2hs,
         'lets_encrypt': le,
         'path': path,
