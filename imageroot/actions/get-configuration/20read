@@ -6,11 +6,12 @@
 #
 
 import os
-import socket
-import json
 import sys
+import json
 import agent
+import socket
 
+# prepare data variable
 config = {}
 
 # Read current configuration from Redis
@@ -28,7 +29,7 @@ config ["emergencyaccess"] = rdb.hget(env, "EmergencyAccessEnabled") == "True";
 config ["icondownload"] = rdb.hget(env, "IconDownloadEnabled") == "True";
 config ["signups"] = rdb.hget(env, "SignupsEnabled") == "True";
 config ["lets_encrypt"] = rdb.hget(env, "TRAEFIK_LETS_ENCRYPT") == "False";
-config ["http2https"] = rdb.hget(env, "TRAEFIK_HTTP2HTTPS") == "True";
+config ["http2https"] = os.environ.get("TRAEFIK_HTTP2HTTPS","False") == "True";
 
 # find hostname of the node
 config ["hostname"] = socket.gethostname();
