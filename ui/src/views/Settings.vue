@@ -248,7 +248,7 @@ export default {
         Domain: "",
         Path: "",
         lets_encrypt: "",
-        http2https: "",
+        http_to_https: "",
       },
     };
   },
@@ -325,7 +325,7 @@ export default {
       this.IconDownloadEnabled = config.icondownload;
       this.SignupsEnabled = config.signups;
       this.LetsEncryptEnabled = config.lets_encrypt;
-      this.HttpToHttpsEnabled = config.http2https;
+      this.HttpToHttpsEnabled = config.http_to_https;
       this.focusElement("Domain");
     },
     validateConfigureModule() {
@@ -410,7 +410,7 @@ export default {
             icondownload: this.IconDownloadEnabled,
             signups: this.SignupsEnabled,
             lets_encrypt: this.LetsEncryptEnabled,
-            http2https: this.HttpToHttpsenabled,
+            http_to_https: this.HttpToHttpsenabled,
           },
           extra: {
             title: this.$t("settings.configure_instance", {

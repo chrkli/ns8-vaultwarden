@@ -49,15 +49,12 @@ expected to work: it can be rewritten or discarded completely.
 
 To uninstall the instance:
 
-<<<<<<< HEAD
     remove-module --no-preserve vaultwarden1
 
 ## Testing
 
 Test the module using the `test-module.sh` script:
 
-
-<<<<<<< HEAD
     ./test-module.sh <NODE_ADDR> ghcr.io/chrkli/vaultwarden:latest
 
 The tests are made using [Robot Framework](https://robotframework.org/)
@@ -66,6 +63,6 @@ The tests are made using [Robot Framework](https://robotframework.org/)
 
 Translated with [Weblate](https://hosted.weblate.org/projects/ns8/).
 
-####ToDo: Setup the translation process
+*ToDo: Setup the translation process*
 - add [GitHub Weblate app](https://docs.weblate.org/en/latest/admin/continuous.html#github-setup) to your repository
 - add your repository to [hosted.weblate.org]((https://hosted.weblate.org) or ask a NethServer developer to add it to ns8 Weblate project
