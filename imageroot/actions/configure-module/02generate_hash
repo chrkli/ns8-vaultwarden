@@ -23,9 +23,9 @@ if [[ ! -f ${outfile} ]]; then
     else
         /usr/bin/echo 'using OS level argon2 to create hash'
         # use argon2 to hash admintoken (https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page#using-argon2)
-        hashedtoken=$(/usr/bin/printf $admintoken | /usr/bin/argon2 "$(/usr/bin/openssl rand -base64 32)" -e -id -k 65540 -t 3 -p 4)
+        hashedtoken=$(/usr/bin/echo -n $admintoken | /usr/bin/argon2 "$(/usr/bin/openssl rand -base64 32)" -e -id -k 65540 -t 3 -p 4)
         # save hashed token for usage in ENV inside container
-        /usr/bin/echo "VAULTWARDEN_ADMINTOKEN='$hashedtoken'" > ${outfile}
+        /usr/bin/echo "ADMIN_TOKEN=${hashedtoken}" > ${outfile}
     fi
     /usr/bin/echo 'hashed admintoken saved'
 else

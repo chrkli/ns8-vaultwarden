@@ -1,0 +1,26 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2023 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+import os
+import sys
+
+envfile = "vaultwarden.env"
+
+# Using .tmp suffix: do not overwrite the target file until the new one is saved to disk:
+with open(envfile + ".tmp", "w") as efp:
+    print(f"DOMAIN={'https' if os.environ['TRAEFIK_HTTP2HTTPS'] else 'http'}://{os.environ['TRAEFIK_HOST']}{os.environ['TRAEFIK_PATH']}", file=efp)
+    print(f'WEB_VAULT_ENABLED={os.environ["WebvaultEnabled"]}', file=efp)
+    print(f'WEBSOCKET_ENABLED={os.environ["WebsocketEnabled"]}', file=efp)
+    print(f'SENDS_ALLOWED={os.environ["SendsEnabled"]}', file=efp)
+    print(f'INVITATIONS_ALLOWED={os.environ["InvitationsEnabled"]}', file=efp)
+    print(f'INVITATION_ORG_NAME={os.environ["OrgName"]}', file=efp)
+    print(f'EMERGENCY_ACCESS_ALLOWED={os.environ["EmergencyAccessEnabled"]}', file=efp)
+    print(f'DISABLE_ICON_DOWNLOAD={os.environ["IconDownloadEnabled"]}', file=efp)
+    print(f'SIGNUPS_ALLOWED={os.environ["SignupsEnabled"]}', file=efp)
+
+# Commit changes by replacing the existing envfile:
+os.replace(envfile + ".tmp", envfile)
