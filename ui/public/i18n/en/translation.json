@@ -37,7 +37,7 @@
     "icondownload": "Toggle icon download behavior",
     "signups": "Allow registration of accounts",
     "lets_encrypt": "Toggle Let's Encrypt state",
-    "http_to_https": "Toggle redirect to secure connection"
+    "http2https": "Toggle redirect to secure connection"
   },
   "about": {
     "title": "About"
